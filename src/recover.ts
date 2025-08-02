@@ -105,25 +105,12 @@ const main = async () => {
 
   console.log(`\n📤 Transferring: ${formattedTransferAmount} USDC (full balance)`)
 
-  // Create paymaster client
-  const paymasterClient = createZeroDevPaymasterClient({
-    chain: mainnet,
-    transport: http(process.env.ZERODEV_RPC),
-  })
-
   // Create kernel client
   const kernelClient = createKernelAccountClient({
     account,
     chain: mainnet,
     bundlerTransport: http(process.env.ZERODEV_RPC),
-    client: publicClient,
-    paymaster: {
-      getPaymasterData: (userOperation) => {
-        return paymasterClient.sponsorUserOperation({
-          userOperation,
-        })
-      }
-    }
+    client: publicClient
   })
 
   console.log("\n💸 Sending transaction...")
